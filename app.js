@@ -4,8 +4,27 @@ dotenv.config();
 import fetch from "node-fetch"; 
 import { connectDB } from "./config/db.js";
 import User from "./models/user.js";
+import cors from "cors";
 
 const app = express();
+
+const allowedOrigins = [
+  "https://memory-grid-frontend.onrender.com",
+  "http://localhost:5173"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 const PORT = 3000;
 
