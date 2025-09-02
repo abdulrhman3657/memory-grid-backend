@@ -9,16 +9,9 @@ const app = express();
 
 const PORT = 3000;
 
-import cors from "cors";
-
-// Allow all origins (for development)
-app.use(cors());
-
-// app.use(express.json());
-
 app.get("/", async (req, res) => {
   try {
-    // get real IP (supports proxies)
+    // get the IP
     const ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
 
     // lookup location
@@ -31,9 +24,7 @@ app.get("/", async (req, res) => {
         city: geo.city,
     });
 
-
     res.json({data: newUser});
-
 
   } catch (err) {
     console.error("Error logging visitor:", err);
